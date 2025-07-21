@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-sm text-muted-foreground">
-            © 2024 ProsePulse. All rights reserved.
+            © 2025 ProsePulse. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <span>Made with ❤️ using AI</span>
