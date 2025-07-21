@@ -27,7 +27,7 @@ function SetupInstructions() {
       <div className="max-w-md w-full bg-gray-800 rounded-lg p-6 text-center">
         <h1 className="text-2xl font-bold text-white mb-4">Setup Required</h1>
         <p className="text-gray-300 mb-6">
-          To use this application, you need to set up Clerk authentication.
+          To use ProsePulse, you need to set up Clerk authentication and Supabase database.
         </p>
         <div className="text-left space-y-4">
           <div>
@@ -52,6 +52,18 @@ function SetupInstructions() {
             <h3 className="text-white font-semibold mb-2">Step 4:</h3>
             <p className="text-gray-400 text-sm">
               Update the <code className="bg-gray-700 px-1 rounded">VITE_CLERK_PUBLISHABLE_KEY</code> in your .env file
+            </p>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-2">Step 5:</h3>
+            <p className="text-gray-400 text-sm">
+              Click the "Connect to Supabase" button in the top right to set up your database
+            </p>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-2">Step 6:</h3>
+            <p className="text-gray-400 text-sm">
+              Configure your Supabase environment variables in the .env file
             </p>
           </div>
         </div>

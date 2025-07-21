@@ -1,6 +1,6 @@
-# AI Blog Application
+# ProsePulse - AI-Powered Blogging Platform
 
-A modern AI-powered blogging platform with admin controls, user authentication, and premium features.
+Where Words Meet Intelligence. A modern AI-powered blogging platform with admin controls, user authentication, and premium features.
 
 ## Features
 
@@ -17,6 +17,7 @@ A modern AI-powered blogging platform with admin controls, user authentication, 
 - **Frontend**: React 18, TypeScript, Vite
 - **UI**: Tailwind CSS, shadcn/ui
 - **Authentication**: Clerk
+- **Database**: Supabase
 - **State Management**: React Query
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
@@ -34,6 +35,8 @@ Create a `.env` file in the root directory:
 
 ```env
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_key_here
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ## Deployment
