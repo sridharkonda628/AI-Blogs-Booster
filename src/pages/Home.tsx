@@ -110,11 +110,11 @@ const Home: React.FC = () => {
             className="max-w-4xl mx-auto"
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              AI-Powered Blogging Platform
+              ProsePulse
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-              Create stunning content with AI assistance, SEO optimization, and intelligent insights. 
-              Join thousands of creators building their audience.
+              Where Words Meet Intelligence. Create stunning content with AI assistance, SEO optimization, and intelligent insights. 
+              Join thousands of creators building their audience with ProsePulse.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8">

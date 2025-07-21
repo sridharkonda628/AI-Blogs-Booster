@@ -15,6 +15,7 @@ import {
 import { Search, PenTool, Crown, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Header: React.FC = () => {
   const { isSignedIn, user } = useUser();
@@ -52,7 +53,7 @@ const Header: React.FC = () => {
               <PenTool className="h-4 w-4 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              AIBlog
+              ProsePulse
             </span>
           </Link>
 
@@ -102,6 +103,8 @@ const Header: React.FC = () => {
 
           {/* User Actions */}
           <div className="flex items-center space-x-3">
+            <ThemeToggle />
+            
             {isSignedIn ? (
               <>
                 {/* AI Usage Counter */}

@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
                 <PenTool className="h-4 w-4 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                AIBlog
+                ProsePulse
               </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-sm text-muted-foreground">
-            © 2024 AIBlog. All rights reserved.
+            © 2024 ProsePulse. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <span>Made with ❤️ using AI</span>
