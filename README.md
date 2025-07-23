@@ -14,7 +14,8 @@ Where Words Meet Intelligence. A modern AI-powered blogging platform with admin 
 
 ## Tech Stack
 
-- **Frontend**: React 18, TypeScript, Vite
+- **Frontend**: React 18, TypeScript, Vite  
+- **Backend**: Node.js, Express.js, TypeScript
 - **UI**: Tailwind CSS, shadcn/ui
 - **Authentication**: Clerk
 - **Database**: Supabase
@@ -24,19 +25,49 @@ Where Words Meet Intelligence. A modern AI-powered blogging platform with admin 
 
 ## Quick Start
 
+### Frontend + Backend Development
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Install server dependencies: `cd server && npm install`
+4. Set up environment variables (see below)
+5. Run both frontend and backend: `npm run dev:full`
+
+### Frontend Only
+
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Set up environment variables (see below)
-4. Run development server: `npm run dev`
+4. Run frontend only: `npm run dev`
 
 ## Environment Variables
 
+### Frontend (.env)
 Create a `.env` file in the root directory:
 
 ```env
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_key_here
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Backend (server/.env)
+Create a `.env` file in the server directory:
+
+```env
+PORT=5000
+NODE_ENV=development
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+JWT_SECRET=your_jwt_secret_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+OPENAI_API_KEY=your_openai_api_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
 ```
 
 ## Deployment
@@ -85,6 +116,32 @@ For full functionality, you can set up Supabase:
 2. Add database environment variables
 3. Run migrations for user data and blog posts
 
+## API Documentation
+
+The backend provides a comprehensive REST API:
+
+### Authentication
+- `POST /api/auth/clerk` - Authenticate with Clerk
+- `GET /api/auth/me` - Get current user
+
+### Blogs
+- `GET /api/blogs` - Get all blogs (public)
+- `GET /api/blogs/:id` - Get single blog
+- `POST /api/blogs` - Create blog (auth required)
+- `PUT /api/blogs/:id` - Update blog (auth required)
+- `DELETE /api/blogs/:id` - Delete blog (auth required)
+- `POST /api/blogs/:id/like` - Like/unlike blog
+
+### AI Features
+- `POST /api/ai/suggestions` - Generate AI suggestions
+- `POST /api/ai/generate` - Generate content (premium)
+- `POST /api/ai/seo-optimize` - SEO optimization
+
+### Admin
+- `GET /api/admin/stats` - Dashboard statistics
+- `GET /api/admin/users` - Manage users
+- `GET /api/admin/blogs/pending` - Moderate content
+
 ### 3. Payment Setup (Optional)
 
 For premium features:
@@ -95,6 +152,13 @@ For premium features:
 ## Project Structure
 
 ```
+server/                 # Backend API server
+├── src/
+│   ├── controllers/    # Route controllers
+│   ├── middleware/     # Express middleware
+│   ├── routes/         # API routes
+│   ├── config/         # Configuration files
+│   └── server.ts       # Main server file
 src/
 ├── components/          # Reusable UI components
 │   ├── auth/           # Authentication guards
