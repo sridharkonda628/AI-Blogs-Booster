@@ -53,7 +53,7 @@ const Header: React.FC = () => {
               <PenTool className="h-4 w-4 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              ProsePulse
+              AI Blogs Booster
             </span>
           </Link>
 

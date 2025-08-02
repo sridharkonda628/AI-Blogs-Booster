@@ -16,11 +16,11 @@ const Footer: React.FC = () => {
                 <PenTool className="h-4 w-4 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                ProsePulse
+                AI Blogs Booster
               </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
-              AI-powered blogging platform with intelligent content suggestions, SEO optimization, and advanced analytics.
+              Supercharge your content creation with AI-powered blogging tools, intelligent suggestions, and advanced SEO optimization.
             </p>
             <div className="flex space-x-2">
               <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-sm text-muted-foreground">
-            © 2025 ProsePulse. All rights reserved.
+            © 2025 AI Blogs Booster. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <span>Made with ❤️ using AI</span>

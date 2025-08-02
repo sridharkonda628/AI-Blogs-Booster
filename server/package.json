@@ -1,7 +1,7 @@
 {
-  "name": "prosepulse-backend",
+  "name": "ai-blogs-booster-backend",
   "version": "1.0.0",
-  "description": "ProsePulse Backend API",
+  "description": "AI Blogs Booster Backend API",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",

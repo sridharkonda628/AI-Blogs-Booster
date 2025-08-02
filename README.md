@@ -1,16 +1,18 @@
-# ProsePulse - AI-Powered Blogging Platform
+# AI Blogs Booster - Supercharge Your Content Creation
 
-Where Words Meet Intelligence. A modern AI-powered blogging platform with admin controls, user authentication, and premium features.
+Boost your blogging with AI-powered tools, intelligent suggestions, and advanced SEO optimization. A modern AI-enhanced blogging platform with admin controls, user authentication, and premium features.
 
 ## Features
 
-- 🤖 AI-powered content creation with SEO optimization
+- 🚀 AI-powered content creation with intelligent suggestions
+- 📈 Advanced SEO optimization and analytics
 - 👨‍💼 Admin dashboard for content moderation
 - 🔐 User authentication with Clerk
 - 💎 Premium features with usage limits
 - 🎨 Modern dark theme with clean UI
 - 📱 Fully responsive design
 - 💳 Payment integration ready
+- ⚡ Real-time collaboration tools
 
 ## Tech Stack
 
@@ -22,10 +24,11 @@ Where Words Meet Intelligence. A modern AI-powered blogging platform with admin 
 - **State Management**: React Query
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
+- **AI Integration**: OpenAI GPT
 
 ## Quick Start
 
-### Frontend + Backend Development
+### Full Stack Development
 
 1. Clone the repository
 2. Install dependencies: `npm install`
@@ -39,6 +42,13 @@ Where Words Meet Intelligence. A modern AI-powered blogging platform with admin 
 2. Install dependencies: `npm install`
 3. Set up environment variables (see below)
 4. Run frontend only: `npm run dev`
+
+### Backend Only
+
+1. Navigate to server: `cd server`
+2. Install dependencies: `npm install`
+3. Set up environment variables (see below)
+4. Run backend only: `npm run dev`
 
 ## Environment Variables
 
@@ -70,52 +80,6 @@ SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_app_password
 ```
 
-## Deployment
-
-### Vercel Deployment
-
-1. **Install Vercel CLI** (if not already installed):
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **Login to Vercel**:
-   ```bash
-   vercel login
-   ```
-
-3. **Deploy**:
-   ```bash
-   vercel
-   ```
-
-4. **Set Environment Variables** in Vercel Dashboard:
-   - Go to your project settings
-   - Add `VITE_CLERK_PUBLISHABLE_KEY` with your Clerk key
-
-### Manual Vercel Deployment
-
-1. Build the project: `npm run build`
-2. Upload the `dist` folder to Vercel
-3. Configure environment variables in Vercel dashboard
-
-## Setup Instructions
-
-### 1. Clerk Authentication Setup
-
-1. Go to [Clerk Dashboard](https://dashboard.clerk.com)
-2. Create a new application
-3. **Important**: Select **React** as your framework
-4. Copy your Publishable Key (starts with `pk_test_` or `pk_live_`)
-5. Add it to your `.env` file
-
-### 2. Database Setup (Optional)
-
-For full functionality, you can set up Supabase:
-1. Create a Supabase project
-2. Add database environment variables
-3. Run migrations for user data and blog posts
-
 ## API Documentation
 
 The backend provides a comprehensive REST API:
@@ -137,12 +101,84 @@ The backend provides a comprehensive REST API:
 - `POST /api/ai/generate` - Generate content (premium)
 - `POST /api/ai/seo-optimize` - SEO optimization
 
+### Comments
+- `GET /api/comments/:blogId` - Get blog comments
+- `POST /api/comments` - Create comment (auth required)
+- `PUT /api/comments/:id` - Update comment (auth required)
+- `DELETE /api/comments/:id` - Delete comment (auth required)
+
+### Users
+- `GET /api/users/:id` - Get user profile
+- `PUT /api/users/profile` - Update profile (auth required)
+- `GET /api/users/stats` - Get user stats (auth required)
+
 ### Admin
 - `GET /api/admin/stats` - Dashboard statistics
 - `GET /api/admin/users` - Manage users
 - `GET /api/admin/blogs/pending` - Moderate content
+- `PUT /api/admin/blogs/:id/approve` - Approve blog
+- `PUT /api/admin/blogs/:id/reject` - Reject blog
 
-### 3. Payment Setup (Optional)
+### File Upload
+- `POST /api/upload/image` - Upload single image
+- `POST /api/upload/images` - Upload multiple images
+
+### Webhooks
+- `POST /api/webhooks/stripe` - Stripe payment webhooks
+- `POST /api/webhooks/clerk` - Clerk user webhooks
+
+## Deployment
+
+### Vercel Deployment
+
+1. **Install Vercel CLI** (if not already installed):
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Login to Vercel**:
+   ```bash
+   vercel login
+   ```
+
+3. **Deploy**:
+   ```bash
+   vercel
+   ```
+
+4. **Set Environment Variables** in Vercel Dashboard:
+   - Add all required environment variables from the list above
+
+### Netlify Deployment
+
+1. Build the project: `npm run build`
+2. Upload the `dist` folder to Netlify
+3. Configure environment variables in Netlify dashboard
+
+## Setup Instructions
+
+### 1. Clerk Authentication Setup
+
+1. Go to [Clerk Dashboard](https://dashboard.clerk.com)
+2. Create a new application
+3. **Important**: Select **React** as your framework
+4. Copy your Publishable Key (starts with `pk_test_` or `pk_live_`)
+5. Add it to your `.env` file as `VITE_CLERK_PUBLISHABLE_KEY`
+
+### 2. Supabase Database Setup
+
+1. Create a Supabase project at [supabase.com](https://supabase.com)
+2. Get your project URL and anon key from Settings > API
+3. Add them to your environment variables
+4. Click "Connect to Supabase" in the app to set up database schema
+
+### 3. OpenAI Integration (Optional)
+
+1. Get an API key from [OpenAI](https://platform.openai.com)
+2. Add it to your server environment variables
+3. Configure AI features in the admin panel
+
+### 4. Payment Setup (Optional)
 
 For premium features:
 1. Set up Stripe account
@@ -152,46 +188,87 @@ For premium features:
 ## Project Structure
 
 ```
-server/                 # Backend API server
-├── src/
-│   ├── controllers/    # Route controllers
-│   ├── middleware/     # Express middleware
-│   ├── routes/         # API routes
-│   ├── config/         # Configuration files
-│   └── server.ts       # Main server file
-src/
-├── components/          # Reusable UI components
-│   ├── auth/           # Authentication guards
-│   ├── layout/         # Layout components
-│   └── ui/             # shadcn/ui components
-├── pages/              # Page components
-├── hooks/              # Custom React hooks
-├── lib/                # Utility functions
-└── types/              # TypeScript type definitions
+├── src/                    # Frontend React application
+│   ├── components/         # Reusable UI components
+│   │   ├── auth/          # Authentication guards
+│   │   ├── layout/        # Layout components
+│   │   └── ui/            # shadcn/ui components
+│   ├── pages/             # Page components
+│   ├── hooks/             # Custom React hooks
+│   ├── lib/               # Utility functions
+│   └── types/             # TypeScript type definitions
+├── server/                # Backend API server
+│   ├── src/
+│   │   ├── controllers/   # Route controllers
+│   │   ├── middleware/    # Express middleware
+│   │   ├── routes/        # API routes
+│   │   ├── config/        # Configuration files
+│   │   └── server.ts      # Main server file
+│   ├── uploads/           # File upload directory
+│   └── package.json       # Backend dependencies
+├── public/                # Static assets
+└── package.json           # Frontend dependencies
 ```
 
 ## Key Features
 
-### For Users
-- Create and edit blog posts with AI assistance
-- Get AI suggestions for titles, content, and SEO
-- Track article performance and analytics
-- Manage profile and preferences
-- Upgrade to premium for unlimited AI features
+### For Content Creators
+- AI-powered content suggestions and generation
+- Advanced SEO optimization tools
+- Real-time collaboration features
+- Performance analytics and insights
+- Content scheduling and automation
+- Social media integration
 
-### For Admins
-- Review and moderate all blog posts
-- Manage user accounts and permissions
-- View platform analytics and reports
-- Control content publication workflow
+### For Administrators
+- Comprehensive content moderation system
+- User management and role assignment
+- Platform analytics and reporting
+- Payment and subscription management
+- System monitoring and health checks
+
+### AI-Powered Tools
+- Intelligent title suggestions
+- Content optimization recommendations
+- SEO keyword analysis
+- Readability improvements
+- Trending topic identification
+- Automated tagging and categorization
+
+## Development Scripts
+
+```bash
+# Frontend development
+npm run dev              # Start frontend dev server
+npm run build           # Build for production
+npm run preview         # Preview production build
+
+# Backend development
+cd server
+npm run dev             # Start backend dev server
+npm run build          # Build backend
+npm start              # Start production server
+
+# Full stack development
+npm run dev:full        # Start both frontend and backend
+```
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, email support@aiblogsbooster.com or join our Discord community.
+
+---
+
+**AI Blogs Booster** - Supercharge Your Content Creation with AI 🚀

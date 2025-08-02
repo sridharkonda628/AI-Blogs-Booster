@@ -27,7 +27,7 @@ function SetupInstructions() {
       <div className="max-w-md w-full bg-gray-800 rounded-lg p-6 text-center">
         <h1 className="text-2xl font-bold text-white mb-4">Setup Required</h1>
         <p className="text-gray-300 mb-6">
-          To use ProsePulse, you need to set up Clerk authentication and Supabase database.
+          To use AI Blogs Booster, you need to set up Clerk authentication and Supabase database.
         </p>
         <div className="text-left space-y-4">
           <div>
