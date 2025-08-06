@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useUser } from '@clerk/clerk-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +20,10 @@ import {
   Trash2,
   Edit,
   Search,
-  Filter
+  Filter,
+  Crown,
+  Settings,
+  BarChart3
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -98,11 +102,16 @@ const mockUsers = [
 ];
 
 const AdminPanel: React.FC = () => {
+  const { user } = useUser();
   const [pendingArticles, setPendingArticles] = useState(mockPendingArticles);
   const [users, setUsers] = useState(mockUsers);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [activeTab, setActiveTab] = useState('articles');
+
+  // Get admin info
+  const adminName = user?.firstName || user?.emailAddresses?.[0]?.emailAddress?.split('@')[0] || 'Admin';
+  const adminEmail = user?.emailAddresses?.[0]?.emailAddress || '';
 
   const handleApproveArticle = (articleId: string) => {
     setPendingArticles(prev => 
@@ -171,21 +180,28 @@ const AdminPanel: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
+            <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
               <Shield className="h-8 w-8 text-primary" />
-              Admin Panel
+              Admin Control Panel
             </h1>
             <p className="text-muted-foreground">
-              Manage content moderation, users, and platform settings.
+              Welcome back, {adminName}! Manage content, users, and platform analytics.
             </p>
           </div>
           
-          <Alert className="max-w-md">
-            <Shield className="h-4 w-4" />
-            <AlertDescription>
-              You have admin privileges. All actions are logged for security.
-            </AlertDescription>
-          </Alert>
+          <div className="flex items-center gap-3">
+            <Alert className="max-w-sm">
+              <Crown className="h-4 w-4" />
+              <AlertDescription className="text-sm">
+                <strong>Admin Session Active</strong><br />
+                All actions are logged for security
+              </AlertDescription>
+            </Alert>
+            <Button variant="outline" size="sm">
+              <Settings className="h-4 w-4 mr-2" />
+              Settings
+            </Button>
+          </div>
         </div>
 
         {/* Stats Overview */}
