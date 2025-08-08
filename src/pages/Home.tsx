@@ -134,9 +134,9 @@ const Home: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center"
+                  className="text-center hover-lift"
                 >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>
                     <stat.icon className="h-6 w-6 text-primary" />
                   </div>
                   <div className="text-2xl font-bold text-foreground">{stat.value}</div>
@@ -176,12 +176,12 @@ const Home: React.FC = () => {
                   variant={selectedCategory === category.name ? "default" : "outline"}
                   onClick={() => setSelectedCategory(category.name)}
                   className="rounded-full"
-                >
-                  {category.name}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-slide-in-up">
+            <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 animate-pulse-glow">
                   <Badge variant="secondary" className="ml-2 text-xs">
                     {category.count}
                   </Badge>
-                </Button>
+            <Button size="lg" variant="outline" className="hover-lift">
               ))}
             </div>
           </div>
@@ -274,7 +274,7 @@ const BlogGrid: React.FC<{ blogs: typeof featuredBlogs }> = ({ blogs }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
         >
-          <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 border-border/50">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
             <div className="relative overflow-hidden">
               <img
                 src={blog.thumbnail}

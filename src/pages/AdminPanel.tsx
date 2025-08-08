@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useUser } from '@clerk/clerk-react';
 import { motion } from 'framer-motion';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -23,7 +24,8 @@ import {
   Filter,
   Crown,
   Settings,
-  BarChart3
+  BarChart3,
+  Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -103,8 +105,7 @@ const mockUsers = [
 
 const AdminPanel: React.FC = () => {
   const { user } = useUser();
-  const [pendingArticles, setPendingArticles] = useState(mockPendingArticles);
-  const [users, setUsers] = useState(mockUsers);
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [activeTab, setActiveTab] = useState('articles');
@@ -113,45 +114,89 @@ const AdminPanel: React.FC = () => {
   const adminName = user?.firstName || user?.emailAddresses?.[0]?.emailAddress?.split('@')[0] || 'Admin';
   const adminEmail = user?.emailAddresses?.[0]?.emailAddress || '';
 
-  const handleApproveArticle = (articleId: string) => {
-    setPendingArticles(prev => 
-      prev.map(article => 
-        article.id === articleId 
-          ? { ...article, status: 'approved' }
-          : article
-      ).filter(article => article.status !== 'approved')
-    );
-    toast.success('Article approved and published!');
-  };
+  // Fetch pending articles
+  const { data: pendingArticles = [], isLoading: articlesLoading, error: articlesError } = useQuery({
+    queryKey: ['admin', 'pending-articles'],
+    queryFn: async () => {
+      // In a real app, this would be an API call
+      return mockPendingArticles;
+    }
+  });
 
-  const handleRejectArticle = (articleId: string) => {
-    setPendingArticles(prev => 
-      prev.filter(article => article.id !== articleId)
-    );
-    toast.success('Article rejected and removed from queue.');
-  };
+  // Fetch users
+  const { data: users = [], isLoading: usersLoading } = useQuery({
+    queryKey: ['admin', 'users'],
+    queryFn: async () => {
+      // In a real app, this would be an API call
+      return mockUsers;
+    }
+  });
 
-  const handleToggleUserStatus = (userId: string) => {
-    setUsers(prev =>
-      prev.map(user =>
-        user.id === userId
-          ? { ...user, status: user.status === 'active' ? 'suspended' : 'active' }
-          : user
-      )
-    );
-    toast.success('User status updated.');
-  };
+  // Approve article mutation
+  const approveArticleMutation = useMutation({
+    mutationFn: async (articleId: string) => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return { id: articleId, status: 'approved' };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'pending-articles'] });
+      toast.success('Article approved and published!', {
+        description: 'The article is now live and visible to all users.'
+      });
+    },
+    onError: () => {
+      toast.error('Failed to approve article. Please try again.');
+    }
+  });
 
-  const handlePromoteUser = (userId: string) => {
-    setUsers(prev =>
-      prev.map(user =>
-        user.id === userId
-          ? { ...user, role: user.role === 'user' ? 'premium' : 'user' }
-          : user
-      )
-    );
-    toast.success('User role updated.');
-  };
+  // Reject article mutation
+  const rejectArticleMutation = useMutation({
+    mutationFn: async (articleId: string) => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return { id: articleId, status: 'rejected' };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'pending-articles'] });
+      toast.success('Article rejected and removed from queue.');
+    },
+    onError: () => {
+      toast.error('Failed to reject article. Please try again.');
+    }
+  });
+
+  // Toggle user status mutation
+  const toggleUserStatusMutation = useMutation({
+    mutationFn: async (userId: string) => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 800));
+      return { id: userId };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      toast.success('User status updated successfully.');
+    },
+    onError: () => {
+      toast.error('Failed to update user status.');
+    }
+  });
+
+  // Promote user mutation
+  const promoteUserMutation = useMutation({
+    mutationFn: async (userId: string) => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 800));
+      return { id: userId };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      toast.success('User role updated successfully.');
+    },
+    onError: () => {
+      toast.error('Failed to update user role.');
+    }
+  });
 
   const filteredArticles = pendingArticles.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -325,25 +370,35 @@ const AdminPanel: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <Button 
                           size="sm" 
-                          onClick={() => handleApproveArticle(article.id)}
+                          onClick={() => approveArticleMutation.mutate(article.id)}
+                          disabled={approveArticleMutation.isPending}
                           className="bg-green-600 hover:bg-green-700"
                         >
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          Approve
+                          {approveArticleMutation.isPending ? (
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          ) : (
+                            <CheckCircle className="h-4 w-4 mr-2" />
+                          )}
+                          {approveArticleMutation.isPending ? 'Approving...' : 'Approve'}
                         </Button>
                         <Button 
                           size="sm" 
                           variant="destructive"
-                          onClick={() => handleRejectArticle(article.id)}
+                          onClick={() => rejectArticleMutation.mutate(article.id)}
+                          disabled={rejectArticleMutation.isPending}
                         >
-                          <XCircle className="h-4 w-4 mr-2" />
-                          Reject
+                          {rejectArticleMutation.isPending ? (
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          ) : (
+                            <XCircle className="h-4 w-4 mr-2" />
+                          )}
+                          {rejectArticleMutation.isPending ? 'Rejecting...' : 'Reject'}
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" className="hover-lift">
                           <Eye className="h-4 w-4 mr-2" />
                           Preview
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" className="hover-lift">
                           <Edit className="h-4 w-4 mr-2" />
                           Edit
                         </Button>
@@ -353,11 +408,18 @@ const AdminPanel: React.FC = () => {
 
                   {filteredArticles.length === 0 && (
                     <div className="text-center py-12">
-                      <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4 animate-float" />
                       <h3 className="text-lg font-medium mb-2">No articles found</h3>
                       <p className="text-muted-foreground">
                         {searchQuery ? 'Try adjusting your search terms.' : 'All articles have been reviewed.'}
                       </p>
+                    </div>
+                  )}
+
+                  {articlesLoading && (
+                    <div className="text-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+                      <p className="text-muted-foreground">Loading articles...</p>
                     </div>
                   )}
                 </div>
@@ -415,18 +477,32 @@ const AdminPanel: React.FC = () => {
                         <Button
                           size="sm"
                           variant={user.status === 'active' ? 'destructive' : 'default'}
-                          onClick={() => handleToggleUserStatus(user.id)}
+                          onClick={() => toggleUserStatusMutation.mutate(user.id)}
+                          disabled={toggleUserStatusMutation.isPending}
                         >
-                          {user.status === 'active' ? 'Suspend' : 'Activate'}
+                          {toggleUserStatusMutation.isPending ? (
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          ) : null}
+                          {toggleUserStatusMutation.isPending 
+                            ? 'Updating...' 
+                            : user.status === 'active' ? 'Suspend' : 'Activate'
+                          }
                         </Button>
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handlePromoteUser(user.id)}
+                          onClick={() => promoteUserMutation.mutate(user.id)}
+                          disabled={promoteUserMutation.isPending}
                         >
-                          {user.role === 'user' ? 'Promote' : 'Demote'}
+                          {promoteUserMutation.isPending ? (
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          ) : null}
+                          {promoteUserMutation.isPending 
+                            ? 'Updating...' 
+                            : user.role === 'user' ? 'Promote' : 'Demote'
+                          }
                         </Button>
-                        <Button size="sm" variant="ghost">
+                        <Button size="sm" variant="ghost" className="hover-lift">
                           <Eye className="h-4 w-4" />
                         </Button>
                       </div>

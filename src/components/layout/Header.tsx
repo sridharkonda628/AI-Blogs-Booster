@@ -49,10 +49,10 @@ const Header: React.FC = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center hover-lift animate-pulse-glow">
               <PenTool className="h-4 w-4 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
               AI Blogs Booster
             </span>
           </Link>
@@ -122,13 +122,13 @@ const Header: React.FC = () => {
 
                 <Button asChild size="sm" className="hidden sm:inline-flex">
                   <Link to="/create">
-                    <PenTool className="h-4 w-4 mr-2" />
+                    <PenTool className="h-4 w-4 mr-2 animate-float" />
                     Write
                   </Link>
                 </Button>
 
                 {isAdmin && (
-                  <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+                  <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex hover-lift animate-pulse-glow">
                     <Link to="/admin">Admin</Link>
                   </Button>
                 )}
