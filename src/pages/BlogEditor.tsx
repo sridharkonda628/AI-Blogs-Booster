@@ -414,10 +414,10 @@ const BlogEditor: React.FC = () => {
                 <Button 
                   onClick={generateAISuggestions} 
                   disabled={isLoading || !canUseAI}
-                  className="w-full"
+                  className="w-full hover-lift"
                   variant={canUseAI ? "default" : "secondary"}
                 >
-                  <Zap className="h-4 w-4 mr-2" />
+                  <Zap className="h-4 w-4 mr-2 animate-float" />
                   {isLoading ? 'Generating...' : 'Generate AI Suggestions'}
                 </Button>
 
