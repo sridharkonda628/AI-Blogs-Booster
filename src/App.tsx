@@ -1,9 +1,5 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { ClerkProvider } from '@clerk/clerk-react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Toaster } from '@/components/ui/sonner';
-import { ThemeProvider } from '@/components/theme-provider';
 import Layout from '@/components/layout/Layout';
 import Home from '@/pages/Home';
 import BlogEditor from '@/pages/BlogEditor';
@@ -15,8 +11,6 @@ import Pricing from '@/pages/Pricing';
 import Category from '@/pages/Category';
 import { AuthGuard } from '@/components/auth/AuthGuard';
 import { AdminGuard } from '@/components/auth/AdminGuard';
-
-const queryClient = new QueryClient();
 
 // Get Clerk publishable key from environment variables
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -84,46 +78,39 @@ function App() {
   }
 
   return (
-    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="dark" storageKey="blog-theme">
-            <Layout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/blog/:id" element={<BlogDetail />} />
-                <Route path="/category/:category" element={<Category />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/create" element={
-                  <AuthGuard>
-                    <BlogEditor />
-                  </AuthGuard>
-                } />
-                <Route path="/edit/:id" element={
-                  <AuthGuard>
-                    <BlogEditor />
-                  </AuthGuard>
-                } />
-                <Route path="/dashboard" element={
-                  <AuthGuard>
-                    <Dashboard />
-                  </AuthGuard>
-                } />
-                <Route path="/profile" element={
-                  <AuthGuard>
-                    <Profile />
-                  </AuthGuard>
-                } />
-                <Route path="/admin" element={
-                  <AdminGuard>
-                    <AdminPanel />
-                  </AdminGuard>
-                } />
-              </Routes>
-              <Toaster />
-            </Layout>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </ClerkProvider>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/category/:category" element={<Category />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/create" element={
+          <AuthGuard>
+            <BlogEditor />
+          </AuthGuard>
+        } />
+        <Route path="/edit/:id" element={
+          <AuthGuard>
+            <BlogEditor />
+          </AuthGuard>
+        } />
+        <Route path="/dashboard" element={
+          <AuthGuard>
+            <Dashboard />
+          </AuthGuard>
+        } />
+        <Route path="/profile" element={
+          <AuthGuard>
+            <Profile />
+          </AuthGuard>
+        } />
+        <Route path="/admin" element={
+          <AdminGuard>
+            <AdminPanel />
+          </AdminGuard>
+        } />
+      </Routes>
+    </Layout>
   );
 }
 
