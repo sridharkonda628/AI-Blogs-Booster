@@ -62,6 +62,17 @@ export const blogService = {
       query = query.eq('category', filters.category)
     }
     
+  async getBlogsByStatus(status: string) {
+    const { data, error } = await supabase
+      .from('blogs')
+      .select('*')
+      .eq('status', status)
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data;
+  },
+
     if (filters?.status) {
       query = query.eq('status', filters.status)
     }
@@ -107,6 +118,18 @@ export const blogService = {
     
     if (error) throw error
     return data
+  },
+
+  async updateBlogStatus(id: string, status: string) {
+    const { data, error } = await supabase
+      .from('blogs')
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
 
   async deleteBlog(id: string) {
