@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/sonner';
@@ -87,7 +87,6 @@ function App() {
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="dark" storageKey="blog-theme">
-          <Router>
             <Layout>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -122,7 +121,6 @@ function App() {
               </Routes>
               <Toaster />
             </Layout>
-          </Router>
         </ThemeProvider>
       </QueryClientProvider>
     </ClerkProvider>
