@@ -10,7 +10,7 @@
     "build:server": "cd server && npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "vercel-build": "npm run build",
+    "vercel-build": "tsc -b && vite build",
     "start:server": "cd server && npm start"
   },
   "dependencies": {
